@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zovies.Backend", "Zovies.Backend\Zovies.Backend.csproj", "{F50EDE31-8542-407A-B2DF-25FEF536B09D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zovies.Downloader", "Zovies.Downloader\Zovies.Downloader.csproj", "{96CF6647-585B-49D0-88FA-96F6D5A2B532}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zovies.UnitTest", "Zovies.UnitTest\Zovies.UnitTest.csproj", "{40B4FC27-8022-4827-A375-E86E4916FECE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{F50EDE31-8542-407A-B2DF-25FEF536B09D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F50EDE31-8542-407A-B2DF-25FEF536B09D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F50EDE31-8542-407A-B2DF-25FEF536B09D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96CF6647-585B-49D0-88FA-96F6D5A2B532}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96CF6647-585B-49D0-88FA-96F6D5A2B532}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96CF6647-585B-49D0-88FA-96F6D5A2B532}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96CF6647-585B-49D0-88FA-96F6D5A2B532}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40B4FC27-8022-4827-A375-E86E4916FECE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40B4FC27-8022-4827-A375-E86E4916FECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40B4FC27-8022-4827-A375-E86E4916FECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40B4FC27-8022-4827-A375-E86E4916FECE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,8 +1,8 @@
 namespace Zovies.Backend.Models;
 
-public class Movies
+public class Movie
 {
-    public Guid ID { get; set; }
+    public int MovieID { get; set; }
     public string MovieName { get; set; }
     public List<Cast> MovieCast { get; set; }
     public Details MovieDetails { get; set; }

@@ -16,8 +16,9 @@ namespace Zovies.Backend.Controllers;
 public class MovieController : ControllerBase
 {
     private readonly MovieContext _context;
-    private readonly ILogger _logger;
-    public MovieController(MovieContext context, ILogger logger)
+    private readonly ILogger<MovieController> _logger;
+    
+    public MovieController(MovieContext context, ILogger<MovieController> logger)
     {
         _logger = logger;
         _context = context;
@@ -48,6 +49,10 @@ public class MovieController : ControllerBase
     public ActionResult<Movie> GetMoviesFiltered([FromQuery] FilterParams filterParams)
     {
         var movies = _context.Movies;
+        if (!movies.Any())
+            return Ok(new List<Movie>());
+        
+        
         IQueryable<Movie> matchingMovies = null;
 
         if (filterParams.Genre != null)

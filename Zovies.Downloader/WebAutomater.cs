@@ -10,23 +10,13 @@ namespace Zovies.Downloader;
 
 public class WebAutomater
 {
-    /*
-     * Search for video element on page
-     * trigger play (.play()?)
-     * watch network tab for m2u8 file to be downloaded
-     * 
-     */
+
     private IWebDriver _driver;
-    // public List<string> m3u8FileUrl = new();
-    
-    
+
+
     public WebAutomater()
     {
         _driver = new ChromeDriver();
-        // start monitoring network requests
-        // _driver.Manage().Network.StartMonitoring().Wait();
-        // add event handler, triggered for every request sent
-        // _driver.Manage().Network.NetworkRequestSent += LogNetworkRequest;
     }
 
     public void NavigateTo(string url)
@@ -55,6 +45,8 @@ public class WebAutomater
     /// <returns></returns>
     public string? GetHdMu38FileUrl()
     {
+        // navigate to the player page so the videojs player is accessible
+        OpenPlayer();
         /*
          * working javascript script that fetches the source from the quality inspector, also
          * source.src is the m3u8 file, now we dont need to watch the network logs!
@@ -98,16 +90,19 @@ public class WebAutomater
         name = name.Replace(year, "").Trim();
         return (int.Parse(year), name);
     }
-    
-    // private void LogNetworkRequest(object? sender, NetworkRequestSentEventArgs args)
-    // {
-    //     if (!args.RequestUrl.EndsWith(".m3u8")) return;
-    //     
-    //     Console.WriteLine($"{args.RequestMethod} | {args.RequestUrl}");
-    //     m3u8FileUrl.Add(args.RequestUrl);
-    //
-    // }
-    //
+
+
+    /// <summary>
+    /// Calls the GetDetails function to fetch the movie name and year
+    /// then navigates to the player page and gets the m3u8 file
+    /// </summary>
+    /// <returns>(year, movie title, HD m3u8 file url) the m3u8 file will be null if no HD resolution was specified</returns>
+    public (int, string, string?) GetEverything()
+    {
+        var (year, name) = GetDetails();
+        var file = GetHdMu38FileUrl();
+        return (year, name, file);
+    }
 
     /// <summary>
     /// Close the browser

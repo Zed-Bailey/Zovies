@@ -52,10 +52,9 @@ public class Tests
     
     
     [Test]
-    public void TestGettingM3u8File()
+    public void TestGettingM3U8File()
     {
         automation.NavigateTo(MovieUrl);
-        automation.OpenPlayer();
         var file = automation.GetHdMu38FileUrl();
         Console.WriteLine(file ?? "null :( no good resolution");
     }

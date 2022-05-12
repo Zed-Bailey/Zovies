@@ -6,9 +6,9 @@ public class OMDBService
 {
     private readonly string _apiKey;
     private HttpClient _client;
-    public OMDBService(string apiKey)
+    public OMDBService()
     {
-        _apiKey = apiKey;
+        _apiKey = ApplicationData.OMDB_Key;
         _client = new HttpClient();
     }
 

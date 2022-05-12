@@ -20,7 +20,7 @@ public class Download
     //     _automation.NavigateTo(_url);
     //     Thread.Sleep(1000);
     //     var (year, name) = _automation.GetDetails();
-    //     var service = new OMDBService(ApplicationData.OMDB_Key);
+    //     var service = new OMDBService();
     //     await service.FetchMovieDetails(name, year);
     //
     //     // command: 

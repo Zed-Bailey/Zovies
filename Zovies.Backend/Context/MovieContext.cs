@@ -10,7 +10,7 @@ namespace Zovies.Backend.Context;
 public class MovieContext : DbContext
 {
     public DbSet<Movie> Movies { get; set; }
-    public DbSet<Cast> Actors { get; set; }
+    // public DbSet<Cast> Actors { get; set; }
     public DbSet<Details> MovieDetails { get; set; }
 
     public string DbPath { get; }

@@ -26,9 +26,10 @@ public class MovieController : ControllerBase
 
     // GET: api/Movie
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
+    public async Task<IActionResult> GetMovies()
     {
-        return await _context.Movies.ToListAsync();
+        var movies = await _context.Movies.Select(x => new { x.MovieName, x.MovieID, x.MovieDetails.MovieCoverPath, x.MovieDetails.MovieGenres}).ToListAsync();
+        return Ok(movies);
     }
 
     // GET: api/Movie/5
@@ -56,7 +57,7 @@ public class MovieController : ControllerBase
         IQueryable<Movie> matchingMovies = null;
 
         if (filterParams.Genre != null)
-            matchingMovies = matchingMovies.Concat(movies.Where(x => x.MovieDetails.MovieGenres.Exists(g => g.GenreName == filterParams.Genre)));
+            matchingMovies = matchingMovies.Concat(movies.Where(x => x.MovieDetails.MovieGenres.Contains(filterParams.Genre)));
 
         if (filterParams.Rating != null)
             matchingMovies = matchingMovies.Concat(movies.Where(x => x.MovieDetails.Rating >= filterParams.Rating));

@@ -13,7 +13,6 @@ IConfiguration configuration = new ConfigurationBuilder()
 ApplicationData.NetworkDriveUrl = configuration["NetworkDriveUrl"];
 ApplicationData.OMDB_Key = configuration["OMDB_Api_Key"];
 
-var omdbService = new OMDBService(ApplicationData.OMDB_Key);
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,9 +22,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MovieContext>();
-
-// inject omdb service
-builder.Services.AddSingleton(omdbService);
 
 var app = builder.Build();
 

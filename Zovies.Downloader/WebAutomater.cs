@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System.Reflection.Metadata.Ecma335;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Chromium;
 using OpenQA.Selenium.DevTools;
@@ -26,16 +27,44 @@ public class WebAutomater
         // add event handler, triggered for every request sent
         _driver.Manage().Network.NetworkRequestSent += LogNetworkRequest;
         
-        _driver.Url = baseUrl;
+        // _driver.Url = baseUrl;
         _baseUrl = baseUrl;
     }
 
-    private static void LogNetworkRequest(object sender, NetworkRequestSentEventArgs args)
+    public void NavigateTo(string url)
     {
-        Console.WriteLine($"{args.RequestMethod} | {args.RequestUrl}");
+        _driver.Url = url;
+    }
+    public void OpenPlayer()
+    {
+        var exists = _driver.FindElement(By.ClassName("round-button"));
+        exists?.Click();
+    }
+
+    public void PlayMovie()
+    {
+        var player = _driver.FindElement(By.Id("video_player_html5_api"));
+        player?.Click();
+    }
+
+    /// <summary>
+    /// Get the movies release year and movies name from the page
+    /// </summary>
+    /// <returns>a tuple, the first value being the year and the second the name of the movie</returns>
+    public (int, string) GetDetails()
+    {
+        var name = _driver.FindElement(By.ClassName("bd-hd")).Text;
+        var year = _driver.FindElement(By.CssSelector(".bd-hd > span:nth-child(1)")).Text;
+        name = name.Replace(year, "").Trim();
+        return (int.Parse(year), name);
     }
     
-    public void NavigateHome() => _driver.Url = _baseUrl;
+    private static void LogNetworkRequest(object? sender, NetworkRequestSentEventArgs args)
+    {
+        if(args.RequestUrl.EndsWith(".m3u8"))
+            Console.WriteLine($"{args.RequestMethod} | {args.RequestUrl}");
+    }
+    
 
     public void Close()
     {

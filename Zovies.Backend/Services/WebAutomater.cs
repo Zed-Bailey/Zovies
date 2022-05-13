@@ -1,12 +1,6 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Chromium;
-using OpenQA.Selenium.DevTools;
-using OpenQA.Selenium.DevTools.V85.Network;
-using OpenQA.Selenium.Firefox;
-
-namespace Zovies.Downloader;
+namespace Zovies.Backend.Services;
 
 public class WebAutomater
 {
@@ -109,8 +103,6 @@ public class WebAutomater
     /// </summary>
     public void Close()
     {
-        // stop the network monitoring
-        _driver.Manage().Network.StopMonitoring().Wait();
         // close the driver
         _driver.Close();
     }

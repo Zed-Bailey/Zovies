@@ -18,7 +18,7 @@ namespace Zovies.Backend.Migrations
 
             modelBuilder.Entity("Zovies.Backend.Models.Details", b =>
                 {
-                    b.Property<int>("DetailsID")
+                    b.Property<int>("DetailsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -38,20 +38,26 @@ namespace Zovies.Backend.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("MovieId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<float>("Rating")
                         .HasColumnType("REAL");
 
                     b.Property<int>("Year")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("DetailsID");
+                    b.HasKey("DetailsId");
+
+                    b.HasIndex("MovieId")
+                        .IsUnique();
 
                     b.ToTable("MovieDetails");
                 });
 
             modelBuilder.Entity("Zovies.Backend.Models.Movie", b =>
                 {
-                    b.Property<int>("MovieID")
+                    b.Property<int>("MovieId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -59,29 +65,30 @@ namespace Zovies.Backend.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("MovieDetailsDetailsID")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("MovieName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("MovieID");
-
-                    b.HasIndex("MovieDetailsDetailsID");
+                    b.HasKey("MovieId");
 
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("Zovies.Backend.Models.Movie", b =>
+            modelBuilder.Entity("Zovies.Backend.Models.Details", b =>
                 {
-                    b.HasOne("Zovies.Backend.Models.Details", "MovieDetails")
-                        .WithMany()
-                        .HasForeignKey("MovieDetailsDetailsID")
+                    b.HasOne("Zovies.Backend.Models.Movie", "Movie")
+                        .WithOne("MovieDetails")
+                        .HasForeignKey("Zovies.Backend.Models.Details", "MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("MovieDetails");
+                    b.Navigation("Movie");
+                });
+
+            modelBuilder.Entity("Zovies.Backend.Models.Movie", b =>
+                {
+                    b.Navigation("MovieDetails")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

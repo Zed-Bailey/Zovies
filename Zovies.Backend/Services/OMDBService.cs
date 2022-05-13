@@ -8,7 +8,7 @@ public class OMDBService
     private HttpClient _client;
     public OMDBService()
     {
-        _apiKey = ApplicationData.OMDB_Key;
+        _apiKey = ApplicationData.OmdbKey;
         _client = new HttpClient();
     }
 
@@ -22,6 +22,7 @@ public class OMDBService
     {
         var baseUrl = $"http://www.omdbapi.com/?apikey={_apiKey}&t={movieName}&y={releaseYear}";
         var omdb = await _client.GetFromJsonAsync<OMDBModel>(HttpUtility.UrlEncode(baseUrl));
+        // check that something  was returned from the api
         if (omdb != null || omdb?.Response == "True")
         {
             return new Movie

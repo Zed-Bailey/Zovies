@@ -2,12 +2,14 @@ using System;
 using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium.Chrome;
-using Zovies.Downloader;
+using Zovies.Backend.Services;
+
 
 namespace Zovies.UnitTest;
 
 public class Tests
 {
+    
     private WebAutomater automation;
 
     private int CorrectYear;

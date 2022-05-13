@@ -26,24 +26,36 @@ public class MovieController : ControllerBase
 
     // GET: api/Movie
     [HttpGet]
-    public async Task<IActionResult> GetMovies()
+    public async Task<ActionResult<MovieDto>> GetMovies()
     {
-        var movies = await _context.Movies.Select(x => new { x.MovieName, x.MovieID, x.MovieDetails.MovieCoverPath, x.MovieDetails.MovieGenres}).ToListAsync();
-        return Ok(movies);
+        var movies = await _context.Movies
+            .Include(m => m.MovieDetails)
+            .Select(x => new MovieDto { MovieId = x.MovieId, MovieName = x.MovieName, MovieCast = x.MovieCast})
+            .ToListAsync();
+            // Select(x => new { x.MovieName, x.MovieID, x.MovieDetails.MovieCoverPath, x.MovieDetails.MovieGenres}).ToListAsync();
+            return Ok(movies);
     }
 
     // GET: api/Movie/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Movie>> GetMovie(int id)
+    public async Task<ActionResult<MovieDto>> GetMovie(int id)
     {
-        var movie = await _context.Movies.FindAsync(id);
+        var movie = _context.GetMovie(id);
 
         if (movie == null)
         {
             return NotFound();
         }
-
-        return movie;
+        
+        
+        
+        return new MovieDto
+        {
+            MovieId = movie.MovieId,
+            MovieName = movie.MovieName,
+            MovieCast = movie.MovieCast,
+            Details = new DetailDto(movie.MovieDetails)
+        };
     }
 
     [HttpGet("filter")]
@@ -86,6 +98,6 @@ public class MovieController : ControllerBase
 
     private bool MovieExists(int id)
     {
-        return _context.Movies.Any(e => e.MovieID == id);
+        return _context.Movies.Any(e => e.MovieId == id);
     }
 }

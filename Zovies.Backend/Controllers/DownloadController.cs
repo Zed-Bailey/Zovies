@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Zovies.Backend.Services;
 
 namespace Zovies.Backend.Controllers;
 
@@ -17,9 +18,17 @@ public class DownloadController : ControllerBase
     /// <param name="downloadUrl"></param>
     /// <returns></returns>
     [HttpPost]
-    public IActionResult PostDownloadURL([FromForm] string downloadUrl)
+    public async Task<IActionResult> PostDownloadURL([FromForm] string downloadUrl)
     {
-        return Ok(downloadUrl);
+        var downloader = new MovieDownload(downloadUrl);
+        var (success, message) = await downloader.GetMovie();
+        // the id can be used by the web app to poll for the download status
+        // when it's complete the app can show a snack bar message showing that it was successfully downloaded
+        if(success)
+            return Ok(new {ID = int.Parse(message)});
+
+        return NotFound(new {Error = message});
+
     }
 }
 

@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Zovies.Downloader\Zovies.Downloader.csproj" />
+      <ProjectReference Include="..\Zovies.Backend\Zovies.Backend.csproj" />
     </ItemGroup>
 
 </Project>

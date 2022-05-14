@@ -50,8 +50,8 @@ public class MovieController : ControllerBase
         return new MovieDto
         {
             MovieId = movie.MovieId,
-            MovieName = movie.MovieName,
-            MovieCast = movie.MovieCast,
+            Title = movie.MovieName,
+            Cast = movie.MovieCast,
             Details = new DetailDto(movie.MovieDetails)
         };
     }
@@ -72,8 +72,8 @@ public class MovieController : ControllerBase
             // convert matching models to the DTO object
             .Select(x => new MovieDto {
                 MovieId = x.MovieId,
-                MovieName = x.MovieName,
-                MovieCast = x.MovieCast,
+                Title = x.MovieName,
+                Cast = x.MovieCast,
                 Details = new DetailDto(x.MovieDetails)
             });
         

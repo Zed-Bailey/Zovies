@@ -26,14 +26,14 @@ public class MovieController : ControllerBase
 
     // GET: api/Movie
     [HttpGet]
-    public async Task<ActionResult<MovieDto>> GetMovies()
+    public async Task<IActionResult> GetMovies()
     {
         var movies = await _context.Movies
             .Include(m => m.MovieDetails)
-            .Select(x => new MovieDto { MovieId = x.MovieId, MovieName = x.MovieName, MovieCast = x.MovieCast})
+            .Select(x => new { MovieId = x.MovieId, Name = x.MovieName, Cover = x.MovieDetails.MovieCoverPath})
             .ToListAsync();
-            // Select(x => new { x.MovieName, x.MovieID, x.MovieDetails.MovieCoverPath, x.MovieDetails.MovieGenres}).ToListAsync();
-            return Ok(movies);
+        
+        return Ok(movies);
     }
 
     // GET: api/Movie/5
@@ -47,8 +47,6 @@ public class MovieController : ControllerBase
             return NotFound();
         }
         
-        
-        
         return new MovieDto
         {
             MovieId = movie.MovieId,
@@ -59,24 +57,26 @@ public class MovieController : ControllerBase
     }
 
     [HttpGet("filter")]
-    public ActionResult<Movie> GetMoviesFiltered([FromQuery] FilterParams filterParams)
+    public async Task<ActionResult<MovieDto>> GetMoviesFiltered([FromQuery] FilterParams filterParams)
     {
-        var movies = _context.Movies;
-        if (!movies.Any())
-            return Ok(new List<Movie>());
-        
-        
-        IQueryable<Movie> matchingMovies = null;
+        var movies = await _context.GetAll();
+        var list = movies.ToList();
+        // check if there are any movies stored
+        if (!list.Any()) return Ok(new List<Movie>());
 
-        if (filterParams.Genre != null)
-            matchingMovies = matchingMovies.Concat(movies.Where(x => x.MovieDetails.MovieGenres.Contains(filterParams.Genre)));
-
-        if (filterParams.Rating != null)
-            matchingMovies = matchingMovies.Concat(movies.Where(x => x.MovieDetails.Rating >= filterParams.Rating));
+        var matched = list
+            // filter list
+            .Where(x => x.MovieDetails.Rating >= (filterParams.Rating ?? 0))
+            .Where(x => filterParams.Genre != null && x.MovieDetails.MovieGenres.Contains(filterParams.Genre))
+            // convert matching models to the DTO object
+            .Select(x => new MovieDto {
+                MovieId = x.MovieId,
+                MovieName = x.MovieName,
+                MovieCast = x.MovieCast,
+                Details = new DetailDto(x.MovieDetails)
+            });
         
-        // call distinct to remove any duplicates
-        // could also use union when concating the filtered list together as i think that will also remove duplicates
-        return Ok(matchingMovies.Distinct().ToList());
+        return Ok(matched);
     }
     
 

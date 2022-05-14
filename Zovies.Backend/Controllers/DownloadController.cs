@@ -18,8 +18,9 @@ public class DownloadController : ControllerBase
     /// <param name="downloadUrl"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<IActionResult> PostDownloadURL([FromForm] string downloadUrl)
+    public async Task<IActionResult> PostDownloadUrl([FromForm] string downloadUrl)
     {
+        if (downloadUrl == "") return NotFound();
         var downloader = new MovieDownload(downloadUrl);
         var (success, message) = await downloader.GetMovie();
         // the id can be used by the web app to poll for the download status

@@ -15,9 +15,9 @@ public class Movie
 public class MovieDto
 {
     public int MovieId { get; set; }
-    public string MovieName { get; set; }
+    public string Title { get; set; }
     // Comma seperated string of movie cast members
-    public string MovieCast { get; set; }
+    public string Cast { get; set; }
     public DetailDto Details { get; set; }
     
 }

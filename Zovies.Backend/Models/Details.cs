@@ -27,19 +27,19 @@ public class Details
 /// </summary>
 public class DetailDto {
     public int Year { get; set; }
-    public string MovieGenres { get; set; }
+    public string Genres { get; set; }
     public float Rating { get; set; }
     public string Description { get; set; }
-    public string MovieFilePath { get; set; }
-    public string MovieCoverPath { get; set; }
+    public string MovieFileUrl { get; set; }
+    public string CoverUrl { get; set; }
 
     public DetailDto(Details detailModel)
     {
         Year = detailModel.Year;
-        MovieGenres = detailModel.MovieGenres;
+        Genres = detailModel.MovieGenres;
         Rating = detailModel.Rating;
         Description = detailModel.Description;
-        MovieCoverPath = detailModel.MovieCoverPath;
-        MovieFilePath = detailModel.MovieFilePath;
+        CoverUrl = detailModel.MovieCoverPath;
+        MovieFileUrl = detailModel.MovieFilePath;
     }
 }

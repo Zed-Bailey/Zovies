@@ -68,6 +68,7 @@ public class MovieController : ControllerBase
             // filter list
             .Where(x => x.MovieDetails.Rating >= (filterParams.Rating ?? 0))
             .Where(x => filterParams.Genre != null && x.MovieDetails.MovieGenres.Contains(filterParams.Genre))
+            .Where(x => filterParams.SearchTerm != null && x.MovieName.Contains(filterParams.SearchTerm))
             // convert matching models to the DTO object
             .Select(x => new MovieDto {
                 MovieId = x.MovieId,
@@ -85,6 +86,7 @@ public class MovieController : ControllerBase
     public async Task<IActionResult> DeleteMovie(int id)
     {
         var movie = await _context.Movies.FindAsync(id);
+        
         if (movie == null)
         {
             return NotFound();

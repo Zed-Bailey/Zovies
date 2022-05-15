@@ -10,7 +10,10 @@ public class WebAutomater
 
     public WebAutomater()
     {
-        _driver = new ChromeDriver();
+        var config = new ChromeOptions();
+        config.AddArgument("headless");
+        _driver = new ChromeDriver(config);
+        
     }
 
     public void NavigateTo(string url)

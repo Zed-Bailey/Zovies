@@ -30,7 +30,7 @@ public class DetailDto {
     public string Genres { get; set; }
     public float Rating { get; set; }
     public string Description { get; set; }
-    public string MovieFileUrl { get; set; }
+    public string MovieFileUrl { get; } = "";
     public string CoverUrl { get; set; }
 
     public DetailDto(Details detailModel)
@@ -40,7 +40,9 @@ public class DetailDto {
         Rating = detailModel.Rating;
         Description = detailModel.Description;
         CoverUrl = detailModel.MovieCoverPath;
-        // will create : http://192.1.1.1/folder/on/drive/movie_name-year.mp4
-        MovieFileUrl = ApplicationData.NetworkDriveUrl + detailModel.MovieFilePath;
+        // check if the movie has been downloaded
+        if(detailModel.MovieFilePath != "")
+            // will create : http://192.1.1.1/folder/on/drive/movie_name-year.mp4
+            MovieFileUrl = ApplicationData.NetworkDriveUrl + detailModel.MovieFilePath;
     }
 }

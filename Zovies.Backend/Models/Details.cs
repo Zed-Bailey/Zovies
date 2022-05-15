@@ -40,6 +40,7 @@ public class DetailDto {
         Rating = detailModel.Rating;
         Description = detailModel.Description;
         CoverUrl = detailModel.MovieCoverPath;
-        MovieFileUrl = detailModel.MovieFilePath;
+        // will create : http://192.1.1.1/folder/on/drive/movie_name-year.mp4
+        MovieFileUrl = ApplicationData.NetworkDriveUrl + detailModel.MovieFilePath;
     }
 }

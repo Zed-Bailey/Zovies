@@ -68,7 +68,7 @@ public class MovieDownload
         // runs in background
         Task.Run(() =>
         {
-            var saveLocation = $"{ApplicationData.SaveFolderPath}/{movie.Title}-{movie.Year}";
+            var saveLocation = $"{ApplicationData.SaveFolderPath}{movie.Title}-{movie.Year}";
             var id = createdMovie.Entity.MovieId;
             // execute command to download movie
             // command: 
@@ -77,7 +77,7 @@ public class MovieDownload
             var process = new Process();
             var startInfo = new ProcessStartInfo {
                 FileName = "/bin/bash",
-                Arguments = $"-c \" youtube-dl --output \"{saveLocation}.%(ext)s\" {m3U8File} \"",
+                Arguments = $"-c \"youtube-dl --output '{saveLocation}.%(ext)s' {m3U8File} \"",
                 WindowStyle = ProcessWindowStyle.Hidden,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -87,7 +87,8 @@ public class MovieDownload
 
             process.StartInfo = startInfo;
             process.Start();
-            
+            Console.WriteLine("Downloading: " + m3U8File);
+            process.WaitForExit();
             // update movie variable with the file download location
             // update db context
             var updateContext = new MovieContext();

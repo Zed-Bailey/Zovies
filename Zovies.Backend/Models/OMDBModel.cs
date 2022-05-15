@@ -26,9 +26,9 @@ public class OMDBModel
     public string Poster { get; set; }
     public List<Rating> Ratings { get; set; }
     public string Metascore { get; set; }
-    public string ImdbRating { get; set; }
-    public string ImdbVotes { get; set; }
-    public string ImdbID { get; set; }
+    public string imdbRating { get; set; }
+    public string imdbVotes { get; set; }
+    public string imdbID { get; set; }
     public string Type { get; set; }
     public string DVD { get; set; }
     public string BoxOffice { get; set; }

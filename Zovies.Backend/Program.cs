@@ -14,9 +14,9 @@ try
 {
     // the network url of the folder where you want to download and access the movies from on this device
     // eg. http://192.1.x.x/save/movie/folder/
-    ApplicationData.NetworkDriveUrl = configuration["NetworkDriveUrl"];
+    ApplicationData.NetworkDriveUrl = configuration["NetworkDriveUrl"].TrimEnd('/');
     // extract the save folder path from the network url
-    ApplicationData.SaveFolderPath = new Uri(ApplicationData.NetworkDriveUrl).AbsolutePath.TrimEnd('/');
+    ApplicationData.SaveFolderPath = configuration["SaveFolderPath"];
     ApplicationData.OmdbKey = configuration["OMDBApiKey"];
 }
 catch (Exception e)

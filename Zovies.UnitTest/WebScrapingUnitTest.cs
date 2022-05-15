@@ -28,8 +28,9 @@ public class Tests
     }
 
     // Basic test just to see if the webdriver is running correctly
+    // if it's not then an error will occur here
     [Test]
-    public void Test1()
+    public void TestNavigateToGoogle()
     {
         automation.NavigateTo("https://google.com");
         Thread.Sleep(5000);

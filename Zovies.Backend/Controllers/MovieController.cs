@@ -52,7 +52,7 @@ public class MovieController : ControllerBase
             MovieId = movie.MovieId,
             Title = movie.MovieName,
             Cast = movie.MovieCast,
-            Details = new DetailDto(movie.MovieDetails)
+            Details = new DetailDto(movie.MovieDetails, movie.MovieId)
         };
     }
 
@@ -70,11 +70,10 @@ public class MovieController : ControllerBase
             .Where(x => filterParams.Genre != null && x.MovieDetails.MovieGenres.Contains(filterParams.Genre))
             .Where(x => filterParams.SearchTerm != null && x.MovieName.Contains(filterParams.SearchTerm))
             // convert matching models to the DTO object
-            .Select(x => new MovieDto {
+            .Select(x => new {
                 MovieId = x.MovieId,
                 Title = x.MovieName,
                 Cast = x.MovieCast,
-                Details = new DetailDto(x.MovieDetails)
             });
         
         return Ok(matched);

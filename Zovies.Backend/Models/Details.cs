@@ -30,10 +30,12 @@ public class DetailDto {
     public string Genres { get; set; }
     public float Rating { get; set; }
     public string Description { get; set; }
+    
+    // returns a url to the api endpoint the movie can be streamed from
     public string MovieFileUrl { get; } = "";
     public string CoverUrl { get; set; }
 
-    public DetailDto(Details detailModel)
+    public DetailDto(Details detailModel, int movieId)
     {
         Year = detailModel.Year;
         Genres = detailModel.MovieGenres;
@@ -41,8 +43,7 @@ public class DetailDto {
         Description = detailModel.Description;
         CoverUrl = detailModel.MovieCoverPath;
         // check if the movie has been downloaded
-        if(detailModel.MovieFilePath != "")
-            // will create : http://192.1.1.1/folder/on/drive/movie_name-year.mp4
-            MovieFileUrl = ApplicationData.NetworkDriveUrl + detailModel.MovieFilePath;
+        if (detailModel.MovieFilePath != "")
+            MovieFileUrl = "/stream?id=" + movieId;
     }
 }

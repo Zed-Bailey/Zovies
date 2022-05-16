@@ -2,8 +2,9 @@ using Zovies.Backend.Context;
 using Zovies.Backend.Models;
 using Zovies.Backend.Services;
 
-// http://cagewebdev.com/raspberry-pi-connecting-to-a-network-drive/
 // https://docs.microsoft.com/en-us/dotnet/iot/deployment
+// https://docs.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-6.0
+
 
 // read appsettings.json and get data we need
 IConfiguration configuration = new ConfigurationBuilder()
@@ -34,6 +35,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MovieContext>();
 
+var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy  =>
+        {
+            policy.WithOrigins(configuration["CorsUrl"]);
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -45,6 +56,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
 app.MapControllers();

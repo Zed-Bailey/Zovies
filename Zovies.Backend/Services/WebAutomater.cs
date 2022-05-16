@@ -49,25 +49,24 @@ public class WebAutomater
          * source.src is the m3u8 file, now we dont need to watch the network logs!
          * created by playing around in the developer console
          * and discovering that the player uses this plugin: https://github.com/silvermine/videojs-quality-selector
-         // creates a new videojs instance
-         var player = videojs('video_player_html5_api');
-         // get the items in the quality panel
-         var items = player.controlBar.getChild("QualitySelector").items;
-        // theres only 2 resolutions available for non-members 480p and HD
-        // HD is the second array element 
-        if(items.length == 2) {
-            // this will return the m3u8 file url for the HD video 
-              return items[1].source.src
-        }
-        
-        //if(items[1].source.label == 'HD') {}
+          // creates a new videojs instance
+           var player = videojs('video_player_html5_api');
+            var items = player.controlBar.getChild('QualitySelector').items;
+            // loop over all items and find the one with the 'HD' label
+            for(var i = 0; i < items.length; i++) {
+              if(items[i].source.label == 'HD') {
+                return items[i].source.src
+              }
+            }
          */
         var execute = _driver as IJavaScriptExecutor;
         var response = execute?.ExecuteScript(@"
-            var player = videojs('video_player_html5_api');
+           var player = videojs('video_player_html5_api');
             var items = player.controlBar.getChild('QualitySelector').items;
-            if(items.length == 2) {
-                    return items[1].source.src
+            for(var i = 0; i < items.length; i++) {
+              if(items[i].source.label == 'HD') {
+                    return items[i].source.src
+                }
             }
         ");
         return response as string;

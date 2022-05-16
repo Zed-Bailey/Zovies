@@ -12,10 +12,7 @@ IConfiguration configuration = new ConfigurationBuilder()
 // configure application data class
 try
 {
-    // the network url of the folder where you want to download and access the movies from on this device
-    // eg. http://192.1.x.x/save/movie/folder/
-    ApplicationData.NetworkDriveUrl = configuration["NetworkDriveUrl"].TrimEnd('/');
-    // extract the save folder path from the network url
+    // The folder to save downloaded movies to on this device
     ApplicationData.SaveFolderPath = configuration["SaveFolderPath"];
     ApplicationData.OmdbKey = configuration["OMDBApiKey"];
 }

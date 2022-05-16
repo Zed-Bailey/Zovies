@@ -19,7 +19,7 @@ public class StreamController : ControllerBase
         
         
         [HttpGet]
-        public FileStreamResult Stream([FromQuery] int id)
+        public FileResult Stream([FromQuery] int id)
         {
                 // https://stackoverflow.com/questions/42771409/how-to-stream-with-asp-net-core
                 var movie = _context.GetMovie(id);
@@ -31,9 +31,10 @@ public class StreamController : ControllerBase
                 var filepath = movie.MovieDetails.MovieFilePath; 
                 // var filepath = "/Users/zed/zovies/big-buck-bunny_trailer.webm";
                 _logger.LogDebug("Streaming movie with id {Id} and filepath={Filepath}", movie.MovieId, filepath);
-                var stream = System.IO.File.OpenRead(filepath);
-                return new FileStreamResult(stream, new MediaTypeHeaderValue("video/mp4"));
-                
+                // var stream = System.IO.File.OpenRead(filepath);
+                // return new FileStreamResult(stream, new MediaTypeHeaderValue("video/mp4"));
+                return PhysicalFile(filepath, "video/mp4", enableRangeProcessing: true);
+
         }
         
 }

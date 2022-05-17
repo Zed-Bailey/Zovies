@@ -48,12 +48,12 @@ public class MovieDownload
         });
         await context.SaveChangesAsync();
         
-        var rating = float.Parse(movie.imdbRating);
+        var success = float.TryParse(movie.imdbRating, out var rating);
         year = int.Parse(movie.Year);
         var moviesDetails = new Details
         {
             Description = movie.Plot,
-            Rating = rating,
+            Rating = success ? rating : 0,
             Year = year,
             MovieGenres = movie.Genre,
             MovieCoverPath = movie.Poster,

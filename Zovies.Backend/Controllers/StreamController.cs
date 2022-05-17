@@ -29,10 +29,15 @@ public class StreamController : ControllerBase
                         return new FileStreamResult(System.IO.Stream.Null, String.Empty);
                 }
                 var filepath = movie.MovieDetails.MovieFilePath; 
-                // var filepath = "/Users/zed/zovies/big-buck-bunny_trailer.webm";
+                
                 _logger.LogDebug("Streaming movie with id {Id} and filepath={Filepath}", movie.MovieId, filepath);
+                
+                // Filestream result will force the client to download the entire video rather then streaming it in chunks
                 // var stream = System.IO.File.OpenRead(filepath);
                 // return new FileStreamResult(stream, new MediaTypeHeaderValue("video/mp4"));
+                
+                // Physical file will stream the file to the client in chunks on demand, and with range processing functionality so the
+                // client video player can skip around the video
                 return PhysicalFile(filepath, "video/mp4", enableRangeProcessing: true);
 
         }

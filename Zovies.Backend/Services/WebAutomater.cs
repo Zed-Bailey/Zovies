@@ -11,14 +11,16 @@ public class WebAutomater
     public WebAutomater()
     {
         var config = new ChromeOptions();
-        config.AddArgument("headless");
+        // config.AddArgument("headless");
         _driver = new ChromeDriver(config);
         
+        _driver.Manage().Cookies.DeleteAllCookies();
     }
 
     public void NavigateTo(string url)
     {
         _driver.Url = url;
+        Thread.Sleep(1000);
     }
     
     /// <summary>
@@ -42,8 +44,6 @@ public class WebAutomater
     /// <returns></returns>
     public string? GetHdMu38FileUrl()
     {
-        // navigate to the player page so the videojs player is accessible
-        OpenPlayer();
         /*
          * working javascript script that fetches the source from the quality inspector, also
          * source.src is the m3u8 file, now we dont need to watch the network logs!

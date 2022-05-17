@@ -14,12 +14,42 @@ This application was built for learning purposes (and because i hate movies buff
 
 [Youtube-dl](https://github.com/ytdl-org/youtube-dl/) installed on your PATH
 
+chromium installed
+
+[install dotnet](https://docs.microsoft.com/en-us/dotnet/iot/deployment)
+```
+curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel Current
+echo 'export DOTNET_ROOT=$HOME/.dotnet' >> ~/.bashrc
+echo 'export PATH=$PATH:$HOME/.dotnet' >> ~/.bashrc
+source ~/.bashrc
+```
+
+install dotnet ef: `dotnet tool install --global dotnet-ef`
+
+
+
 ### Setup
 - clone both this repo and the Zovies-UI repo
-- edit the appsettings.json file in Zovies.Backend
+- find the IP adress of this device with `ifconfig`
+- change directories into Zovies.Backend
+- edit the appsettings.json file
 - add your api key to the 'OMDBApiKey' field
 - add a path to a folder where you want all movies to be downloaded to in the 'SaveFolderPath' field
-- edit 'Url' field with the deployment ip address and port
+- edit 'Url' field with the deployment ip address and port set to `8080` eg. address `http://192.168.1.1:8080`
+- edit the 'CorsUrl' field with the same address minus the port i.e `http://192.168.1.1`
+
+#### Setup Database
+install sqlite3 `sudo apt install sqlite3`
+run `dotnet ef database update` this will create the application database and run the migrations
+
+#### Deploying application
+
+to create a build of the backend, make sure you are in `Zovies.Backend`
+run `dotnet publish -o build` to build the project and output to a build folder
+change directory to build `cd build`
+execute `dotnet Zovies.Backend.dll` to start the server
+
+
 
 ---
 
@@ -45,5 +75,4 @@ Download
 - Download movies from lookmovie
 
 Choose for me
-- select some filters eg. genre or actor and a random movie will be chosen.
-		this is perfect for when you dont know what to watch
+- selects a random movie for you to watch

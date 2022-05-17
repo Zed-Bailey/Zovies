@@ -1,7 +1,10 @@
 using System;
+using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenQA.Selenium.Chrome;
+using Zovies.Backend.Models;
 using Zovies.Backend.Services;
 
 
@@ -22,9 +25,9 @@ public class Tests
     public void Setup()
     {
         automation = new WebAutomater();
-        MovieUrl = "https://lookmovie2.to/movies/view/13320622-le-secret-de-la-cite-perdue-2022";
-        CorrectName = "The Lost City";
-        CorrectYear = 2022;
+        MovieUrl = "https://lmplayer24.xyz/movies/play/10872600-spider-man-no-way-home-2021?mid=17&sid=cinft0aepbbhmtlq2ta0epd1fq&sec=38dedd5347449be5def13318126a0eb101513e0b&t=1652746278";
+        CorrectName = "Spider-Man: No Way Home";
+        CorrectYear = 2021;
     }
 
     // Basic test just to see if the webdriver is running correctly
@@ -61,7 +64,27 @@ public class Tests
         var file = automation.GetHdMu38FileUrl();
         Console.WriteLine(file ?? "null :( no good resolution");
     }
-    
+
+
+    [Test]
+    public void TestDownload()
+    {
+        // fetch m3u8 file and movie name and year
+        automation.NavigateTo(MovieUrl);
+        var (year,name,file) = automation.GetEverything();
+        automation.Close();
+        
+        Assert.NotNull(file);
+        
+        ApplicationData.SaveFolderPath = "~/zovies/";
+        var outputFile = $"{name}-{year}.mp4";
+        
+        // download file
+        DownloadService.Download(file, outputFile, true);
+        
+        // assert that the file exists
+        Assert.True(File.Exists(ApplicationData.SaveFolderPath + outputFile));
+    }
     
     
     [TearDown]

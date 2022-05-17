@@ -36,6 +36,14 @@ public class MovieController : ControllerBase
         return Ok(movies);
     }
 
+    [HttpGet("random")]
+    public async Task<int> GetRandomMovie()
+    {
+        var movies = await _context.GetAll();
+        var movieArray = movies.ToArray();
+        return movieArray[Random.Shared.Next(0, movieArray.Length)].MovieId;
+    }
+
     // GET: api/Movie/5
     [HttpGet("{id}")]
     public async Task<ActionResult<MovieDto>> GetMovie(int id)

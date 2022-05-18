@@ -1,6 +1,6 @@
 # Zovies
- Zeds Movie Service
 
+[Frontend repo](https://github.com/Zed-Bailey/Zovies-UI)
 
 Zovies is a custom movie service that allows you to download and watch any movie available on lookmovies (a movie streaming site)
 
@@ -29,7 +29,7 @@ install dotnet ef: `dotnet tool install --global dotnet-ef`
 
 
 ### Setup
-- clone both this repo
+- clone this repo
 - find the IP adress of this device with `ifconfig`
 - change directories into Zovies.Backend
 - edit the appsettings.json file

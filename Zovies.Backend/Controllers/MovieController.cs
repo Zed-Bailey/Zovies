@@ -1,4 +1,3 @@
-#nullable disable
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,30 +60,25 @@ public class MovieController : ControllerBase
             Title = movie.MovieName,
             Cast = movie.MovieCast,
             Details = new DetailDto(movie.MovieDetails, movie.MovieId)
-        };
+        }; 
     }
 
     [HttpGet("filter")]
-    public async Task<ActionResult<MovieDto>> GetMoviesFiltered([FromQuery] FilterParams filterParams)
+    public async Task<IActionResult> GetMoviesFiltered(string? search, float? rating, string? genre)
     {
         var movies = await _context.GetAll();
         var list = movies.ToList();
         // check if there are any movies stored
         if (!list.Any()) return Ok(new List<Movie>());
 
-        var matched = list
-            // filter list
-            .Where(x => x.MovieDetails.Rating >= (filterParams.Rating ?? 0))
-            .Where(x => filterParams.Genre != null && x.MovieDetails.MovieGenres.Contains(filterParams.Genre))
-            .Where(x => filterParams.SearchTerm != null && x.MovieName.Contains(filterParams.SearchTerm))
-            // convert matching models to the DTO object
-            .Select(x => new {
-                MovieId = x.MovieId,
-                Title = x.MovieName,
-                Cast = x.MovieCast,
-            });
-        
-        return Ok(matched);
+        var matched = from x in list
+            where x.MovieName.ToLower().Contains(search?.ToLower() ?? "") &&
+             x.MovieDetails.Rating >= (rating ?? 0) &&
+             x.MovieDetails.MovieGenres.ToLower().Contains(genre?.ToLower() ?? "")
+            select x;
+
+        return Ok(matched.Select(x => new { MovieId = x.MovieId, Name = x.MovieName, Cover = x.MovieDetails.MovieCoverPath}));
+    
     }
     
 

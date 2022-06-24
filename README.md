@@ -74,8 +74,8 @@ that's fine)
 
 ## Functionality
 
-Search {Work in ptogress}
-- filter downloaded movies based on a genere,rating,year,cast
+Search 
+- filter downloaded movies based on a genere,rating and keyword search
 
 Download
 - Download movies from lookmovie
